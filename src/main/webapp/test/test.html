@@ -45,10 +45,57 @@
 			console.log(data)
 		}).catch ()
 	}
+	
+	function saveCategory(){
+		var category = {
+			name: "hunger",
+			description: "Feed others.",
+		}
+		
+		fetch("http://localhost:8080" + "/category", {
+			method: "POST",
+			headers: {"Content-Type": "application/json"},
+			body: JSON.stringify(category)
+		}).then((response) => {
+			return response.json()
+		}).then((data) => {
+			console.log(data)
+		}).catch ()
+	}
+	
+	function getCategoryByName(){
+		
+		fetch("http://localhost:8080" + "/category" + "/mhunger", {
+			method: "GET",
+			headers: {"Content-Type": "application/json"},
+		}).then((response) => {
+			return response.json()
+		}).then((data) => {
+			console.log(data)
+		}).catch ()
+	}
+	
+	function getAllCategories(){
+		
+		fetch("http://localhost:8080" + "/categories", {
+			method: "GET",
+			headers: {"Content-Type": "application/json"},
+		}).then((response) => {
+			return response.json()
+		}).then((data) => {
+			console.log(data)
+		}).catch ()
+	}
 </script>
 
 	<button onclick="register()">Register</button>
 	<button onclick="login()">Log In</button>
+	<br/>
+	<button onclick="saveCategory()">Save Category</button>
+	<button onclick="getCategoryByName()">Get Category by name</button>
+	<button onclick="getAllCategories()">Get All Categories</button>
+	
+	
 </body>
 
 
