@@ -30,7 +30,7 @@
 	
 	function login(){
 		var user = {
-			username: "kkk",
+			username: "aa",
 			password: "password",
 		}
 		
@@ -39,7 +39,6 @@
 			headers: {"Content-Type": "application/json"},
 			body: JSON.stringify(user)
 		}).then((response) => {
-			console.log(response)
 			return response.json()
 		}).then((data) => {
 			console.log(data)
@@ -48,8 +47,8 @@
 	
 	function saveCategory(){
 		var category = {
-			name: "hunger",
-			description: "Feed others.",
+			name: "animals",
+			description: "Save animals.",
 		}
 		
 		fetch("http://localhost:8080" + "/category", {
@@ -65,7 +64,7 @@
 	
 	function getCategoryByName(){
 		
-		fetch("http://localhost:8080" + "/category" + "/mhunger", {
+		fetch("http://localhost:8080" + "/category" + "/hunger", {
 			method: "GET",
 			headers: {"Content-Type": "application/json"},
 		}).then((response) => {
@@ -86,15 +85,75 @@
 			console.log(data)
 		}).catch ()
 	}
+	
+	function saveCampaign(){
+		var campaign = {
+			campaignName: "AnimalShelter",
+			description: "Shelter for stray animals.",
+			country: "Tanzania",
+			categoryId: "21",
+			
+		}
+		
+		fetch("http://localhost:8080" + "/campaign", {
+			method: "POST",
+			headers: {"Content-Type": "application/json"},
+			body: JSON.stringify(campaign)
+		}).then((response) => {
+			return response.json()
+		}).then((data) => {
+			console.log(data)
+		}).catch ()
+	}
+	
+	function getAllCampaigns(){
+		
+		fetch("http://localhost:8080" + "/campaigns", {
+			method: "GET",
+			headers: {"Content-Type": "application/json"},
+		}).then((response) => {
+			return response.json()
+		}).then((data) => {
+			console.log(data)
+		}).catch ()
+	}
+	
+	function getAllCampaignsByCategory(){
+		
+		fetch("http://localhost:8080" + "/category/21/campaigns", {
+			method: "GET",
+			headers: {"Content-Type": "application/json"},
+		}).then((response) => {
+			return response.json()
+		}).then((data) => {
+			console.log(data)
+		}).catch ()
+	}
+	
+	function getCampaign(){
+		
+		fetch("http://localhost:8080" + "/campaign" + "/18", {
+			method: "GET",
+			headers: {"Content-Type": "application/json"},
+		}).then((response) => {
+			return response.json()
+		}).then((data) => {
+			console.log(data)
+		}).catch ()
+	}
 </script>
 
 	<button onclick="register()">Register</button>
 	<button onclick="login()">Log In</button>
-	<br/>
+	<br/><br/>
 	<button onclick="saveCategory()">Save Category</button>
 	<button onclick="getCategoryByName()">Get Category by name</button>
 	<button onclick="getAllCategories()">Get All Categories</button>
-	
+	<br/><br/>
+	<button onclick="saveCampaign()">Save Campaign</button>
+	<button onclick="getAllCampaigns()">Get All Campaigns</button>
+	<button onclick="getAllCampaignsByCategory()">Get All Campaigns by Category</button>
+	<button onclick="getCampaign()">Get Campaign by ID</button>
 	
 </body>
 

@@ -3,6 +3,7 @@ package com.sk.charity.controller;
 import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.NonUniqueResultException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -36,7 +37,7 @@ public class CategoryController {
 			responseHandler.setStatus(201);
 			responseHandler.setMessage("Category saved successfully");
 		}else {
-			throw new EntityNotFoundException("Category with name " + category.getName() + " already exists.");
+			throw new NonUniqueResultException("Category with name " + category.getName() + " already exists.");
 		}
 		
 		return responseHandler;
