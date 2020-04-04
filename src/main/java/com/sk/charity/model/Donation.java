@@ -11,9 +11,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
+import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CreationTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "donation")
@@ -21,16 +24,26 @@ public class Donation {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	private Long id;
 	
-	@Column(name = "categoryId")
-	private String categoryId;
+	@Transient
+	private int categoryId;
 	
-	@Column(name = "campaignId")
-	private String campaignId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "categoryId")
+	@JsonIgnore
+	private Category category;
+	
+	@Transient
+	private int campaignId;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "campaignId")
+	@JsonIgnore
+	private Campaign campaign;	
 	
 	@Column(name = "amount", nullable = false)
-	@NotEmpty(message = "Please provide amount.")
+	@NotNull(message = "Please provide amount.")
 	private Double amount;
 	
 	@Column(name = "currency")
@@ -46,31 +59,35 @@ public class Donation {
 	@Column(name = "anonymous")
 	private Boolean anonymous;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "userId", nullable = false)
+	@Transient
+	private int userId;
+	
+	@ManyToOne(fetch = FetchType.LAZY, optional = true)
+	@JoinColumn(name = "userId", nullable = true)
+	@JsonIgnore
 	private User user;
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public String getCategoryId() {
+	public int getCategoryId() {
 		return categoryId;
 	}
 
-	public void setCategoryId(String categoryId) {
+	public void setCategoryId(int categoryId) {
 		this.categoryId = categoryId;
 	}
 
-	public String getCampaignId() {
+	public int getCampaignId() {
 		return campaignId;
 	}
 
-	public void setCampaignId(String campaignId) {
+	public void setCampaignId(int campaignId) {
 		this.campaignId = campaignId;
 	}
 
@@ -121,7 +138,29 @@ public class Donation {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
-	
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
+	public Campaign getCampaign() {
+		return campaign;
+	}
+
+	public void setCampaign(Campaign campaign) {
+		this.campaign = campaign;
+	}
 	
 }

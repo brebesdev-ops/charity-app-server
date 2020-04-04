@@ -46,16 +46,9 @@ public class UserServiceImpl implements UserService{
 		userRepository.save(user);
 	}
 	
-	/*
-	 * public Boolean authenticate(User user) { User x =
-	 * userRepository.findByUsername(user.getUsername()); String password =
-	 * bCryptPasswordEncoder.encode(user.getPassword());
-	 * 
-	 * System.out.println(password); System.out.println(x.getPassword());
-	 * 
-	 * //check if password matches if ( password == x.getPassword() ) { return true;
-	 * }else return false; }
-	 */
+	public void getUser(int userId) {
+		userRepository.getOne(userId);
+	}
 
 	
 }

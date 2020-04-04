@@ -14,7 +14,7 @@
 			firstName: "Angel",
 			lastName: "Kiboma",
 			password: "password",
-			phoneNumber: "0723897699"
+			phone: "0723897699"
 		}
 		
 		fetch("http://localhost:8080" + "/signup", {
@@ -141,6 +141,92 @@
 			console.log(data)
 		}).catch ()
 	}
+	
+	function saveDonation(){
+		var donation = {
+			categoryId: "",
+			campaignId: "",
+			amount: "250",
+			currency: "USD",
+			notes: "",
+			anonymous: false,
+			userId: "23",
+						
+		}
+		
+		fetch("http://localhost:8080" + "/donation", {
+			method: "POST",
+			headers: {"Content-Type": "application/json"},
+			body: JSON.stringify(donation)
+		}).then((response) => {
+			return response.json()
+		}).then((data) => {
+			console.log(data)
+		}).catch ()
+	}
+	
+	function getAllDonations(){
+		
+		fetch("http://localhost:8080" + "/donations", {
+			method: "GET",
+			headers: {"Content-Type": "application/json"},
+		}).then((response) => {
+			return response.json()
+		}).then((data) => {
+			console.log(data)
+		}).catch ()
+	}
+	
+	function getAllDonationsByUserId(){
+		
+		fetch("http://localhost:8080" + "/user" + "/23" + "/donations", {
+			method: "GET",
+			headers: {"Content-Type": "application/json"},
+		}).then((response) => {
+			return response.json()
+		}).then((data) => {
+			console.log(data)
+		}).catch ()
+	}
+	
+	function getAllDonationsByCategoryId(){
+		
+		fetch("http://localhost:8080" + "/category" + "/21" + "/donations", {
+			method: "GET",
+			headers: {"Content-Type": "application/json"},
+		}).then((response) => {
+			return response.json()
+		}).then((data) => {
+			console.log(data)
+		}).catch ()
+	}
+	
+	function getAllDonationsByCampaignId(){
+		
+		fetch("http://localhost:8080" + "/campaign" + "/18" + "/donations", {
+			method: "GET",
+			headers: {"Content-Type": "application/json"},
+		}).then((response) => {
+			return response.json()
+		}).then((data) => {
+			console.log(data)
+		}).catch ()
+	}
+	
+	function uploadCampaignImage(){
+		
+		console.log(document.getElementById("image").files[0])
+		file = document.getElementById("image").files[0]
+		fetch("http://localhost:8080" + "/image" + "/campaign/18", {
+			method: "POST",
+			headers: {"Content-Type": "application/json"},
+			//body: file
+		}).then((response) => {
+			return response.json()
+		}).then((data) => {
+			console.log(data)
+		}).catch ()
+	}
 </script>
 
 	<button onclick="register()">Register</button>
@@ -154,6 +240,18 @@
 	<button onclick="getAllCampaigns()">Get All Campaigns</button>
 	<button onclick="getAllCampaignsByCategory()">Get All Campaigns by Category</button>
 	<button onclick="getCampaign()">Get Campaign by ID</button>
+	<br/><br/>
+	<button onclick="saveDonation()">Save Donation</button>
+	<button onclick="getAllDonations()">Get All Donations</button>
+	<button onclick="getAllDonationsByUserId()">Get All Donations by User</button>
+	<button onclick="getAllDonationsByCategoryId()">Get All Donations by Category</button>
+	<button onclick="getAllDonationsByCampaignId()">Get All Donations by Campaign</button>
+	<br/><br/>
+	<form method="POST" action="http://localhost:8080/image/campaign/18" enctype="multipart/form-data">
+		<input type="file" id="image" name="file"/>
+	    <input type="submit" value="Submit" />
+	</form>
+	<button onclick="uploadCampaignImage()">Upload Campaign Image</button>
 	
 </body>
 
