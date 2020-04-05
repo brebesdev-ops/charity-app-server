@@ -50,5 +50,13 @@ public class UserServiceImpl implements UserService{
 		userRepository.getOne(userId);
 	}
 
+	@Override
+	public void updateUser(User user) {
+		User u = userRepository.getOne(user.getId());
+		//update only the fields where user.field isn't empty
+		u.setPhone(user.getPhone()); //example
+		userRepository.save(u);
+	}
+
 	
 }

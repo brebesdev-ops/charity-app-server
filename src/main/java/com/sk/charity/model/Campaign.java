@@ -36,13 +36,17 @@ public class Campaign {
 	private String country;
 	
 	@Transient
-	private int category_Id;
+	private int categoryId;
 	
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "categoryId")
 	@JsonIgnore //Field will only get value when explicitly fetched 
 	private Category category;
 
+	//Image name of icon/backdrop image
+	@Column(name = "image")
+	private String image;
+	
 	public int getId() {
 		return id;
 	}
@@ -84,11 +88,19 @@ public class Campaign {
 	}
 
 	public int getCategoryId() {
-		return category_Id;
+		return categoryId;
 	}
 
 	public void setCategoryId(int categoryId) {
-		this.category_Id = categoryId;
+		this.categoryId = categoryId;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 	
 	

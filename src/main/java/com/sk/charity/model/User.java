@@ -56,6 +56,9 @@ public class User {
 	@Column(name = "confirmationToken")
 	private String confirmationToken;
 	
+	@Column(name = "stripeCustomerId")
+	private String stripeCustomerId;
+	
 	@ManyToMany(cascade=CascadeType.ALL)
 	@JoinTable(name="user_role", joinColumns=@JoinColumn(name="user_id"), inverseJoinColumns=@JoinColumn(name="role_id"))
 	private Set<Role> roles;
@@ -140,6 +143,11 @@ public class User {
 		this.username = username;
 	}
 
-	
-	
+	public String getStripeCustomerId() {
+		return stripeCustomerId;
+	}
+
+	public void setStripeCustomerId(String stripeCustomerId) {
+		this.stripeCustomerId = stripeCustomerId;
+	}	
 }

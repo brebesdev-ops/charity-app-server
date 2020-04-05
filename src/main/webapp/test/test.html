@@ -14,7 +14,8 @@
 			firstName: "Angel",
 			lastName: "Kiboma",
 			password: "password",
-			phone: "0723897699"
+			phone: "0723897699",
+			stripeCustomerId: "",
 		}
 		
 		fetch("http://localhost:8080" + "/signup", {
@@ -92,6 +93,7 @@
 			description: "Shelter for stray animals.",
 			country: "Tanzania",
 			categoryId: "21",
+			image: "", //image name of uploaded image
 			
 		}
 		
@@ -217,13 +219,31 @@
 		
 		console.log(document.getElementById("image").files[0])
 		file = document.getElementById("image").files[0]
-		fetch("http://localhost:8080" + "/image" + "/campaign/18", {
+		fetch("http://localhost:8080" + "/campaign/18" + "/image", {
 			method: "POST",
 			headers: {"Content-Type": "application/json"},
 			//body: file
 		}).then((response) => {
 			return response.json()
 		}).then((data) => {
+			console.log(data)
+		}).catch ()
+	}
+	
+	function getAllCampaignImages(){
+		
+		fetch("http://localhost:8080" + "/campaign" + "/18" + "/images", {
+			method: "GET",
+			headers: {"Content-Type": "application/json"},
+		}).then((response) => {
+			return response.json()
+		}).then((data) => {
+			var div = document.getElementById("campaignImages")
+			for(i=0; i<data.length; i++){
+				var img = document.createElement("img");
+				img.src = "data:image/jpg;base64," + data[i]
+				div.appendChild(img)
+			}
 			console.log(data)
 		}).catch ()
 	}
@@ -247,12 +267,14 @@
 	<button onclick="getAllDonationsByCategoryId()">Get All Donations by Category</button>
 	<button onclick="getAllDonationsByCampaignId()">Get All Donations by Campaign</button>
 	<br/><br/>
-	<form method="POST" action="http://localhost:8080/image/campaign/18" enctype="multipart/form-data">
-		<input type="file" id="image" name="file"/>
-	    <input type="submit" value="Submit" />
+	<form method="POST" action="http://localhost:8080/campaign/18/image" enctype="multipart/form-data">
+		<input type="file" id="image" name="files" multiple/>
+	    <input type="submit" value="Upload" />
 	</form>
 	<button onclick="uploadCampaignImage()">Upload Campaign Image</button>
-	
+	<button onclick="getAllCampaignImages()">Get All Images by Campaign</button>
+	<img src="http://localhost:8080/campaign/18/image/images.jpg"/>
+	<div id="campaignImages">All Campaign Images</div>
 </body>
 
 
