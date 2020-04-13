@@ -9,12 +9,12 @@
 <script type="text/javascript">
 	function register(){
 		var user = {
-			username: "aa",
-			email: "aa@gmail.com",
+			username: "kk",
+			email: "kk@gmail.com",
 			firstName: "Angel",
 			lastName: "Kiboma",
 			password: "password",
-			phone: "0723897699",
+			phone: "0782491477",
 			stripeCustomerId: "",
 		}
 		
@@ -31,7 +31,7 @@
 	
 	function login(){
 		var user = {
-			username: "aa",
+			username: "kk",
 			password: "password",
 		}
 		
@@ -46,6 +46,31 @@
 		}).catch ()
 	}
 	
+	function updateUser(){
+		var user = {
+			id: "47",
+			username: "aa",
+			email: "aa@gmail.com",
+			firstName: "Angel",
+			lastName: "Kiboma",
+			password: "password",
+			phone: "0723897699",
+			stripeCustomerId: "9939383838",
+		}
+		
+		fetch("http://localhost:8080" + "/user/update", {
+			method: "POST",
+			headers: {"Content-Type": "application/json"},
+			body: JSON.stringify(user)
+		}).then((response) => {
+			return response.json()
+		}).then((data) => {
+			console.log(data)
+		}).catch ()
+	}
+</script>
+<script type="text/javascript">
+
 	function saveCategory(){
 		var category = {
 			name: "animals",
@@ -251,6 +276,7 @@
 
 	<button onclick="register()">Register</button>
 	<button onclick="login()">Log In</button>
+	<button onclick="updateUser()">Update User</button>
 	<br/><br/>
 	<button onclick="saveCategory()">Save Category</button>
 	<button onclick="getCategoryByName()">Get Category by name</button>

@@ -1,5 +1,6 @@
 package com.sk.charity.service;
 
+import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.UUID;
@@ -52,9 +53,12 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public void updateUser(User user) {
-		User u = userRepository.getOne(user.getId());
 		//update only the fields where user.field isn't empty
-		u.setPhone(user.getPhone()); //example
+		//don't update password and confirmationToken fields
+		
+		User u = userRepository.getOne(user.getId());		
+		
+		u.setStripeCustomerId(user.getStripeCustomerId()); //example
 		userRepository.save(u);
 	}
 

@@ -62,6 +62,16 @@ public class UserController {
 		return response;
 	}
 	
+	//TODO: different endpoint to update each field
+	@PostMapping("/user/update")
+	public Response updateUser(@RequestBody User user) {
+		userService.updateUser(user);
+		
+		response.setStatus(200);
+		response.setMessage("User updated successfully");
+		return response;
+	}
+	
 	//TODO: fix this
 	@ExceptionHandler({DisabledException.class, BadCredentialsException.class, Exception.class})
 	public Response handleAuthenticationException(Exception e) {
