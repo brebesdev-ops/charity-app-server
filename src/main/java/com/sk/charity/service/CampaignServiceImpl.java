@@ -21,11 +21,11 @@ public class CampaignServiceImpl implements CampaignService {
 	CategoryRepository categoryRepository;
 	
 	@Override
-	public void saveCampaign(Campaign campaign) {
+	public Campaign saveCampaign(Campaign campaign) {
 		Category category = categoryRepository.getOne(campaign.getCategoryId());
 			
 		campaign.setCategory(category);
-		campaignRepository.save(campaign);
+		return campaignRepository.save(campaign);
 	}
 
 	@Override

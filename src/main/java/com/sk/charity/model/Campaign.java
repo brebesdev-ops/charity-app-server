@@ -44,8 +44,8 @@ public class Campaign {
 	private Category category;
 
 	//Image name of icon/backdrop image
-	@Column(name = "image")
-	private String image;
+	@Column(name = "logo")
+	private String logo;
 	
 	public int getId() {
 		return id;
@@ -95,12 +95,12 @@ public class Campaign {
 		this.categoryId = categoryId;
 	}
 
-	public String getImage() {
-		return image;
+	public String getLogo() {
+		return logo;
 	}
 
-	public void setImage(String image) {
-		this.image = image;
+	public void setLogo(String logo) {
+		this.logo = logo;
 	}
 	
 	

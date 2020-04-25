@@ -22,9 +22,10 @@ public class DonationController {
 	@Autowired
 	Response res;
 	
-	@PostMapping("/donation")
-	public Response createDonation(@RequestBody Donation donation) {
-		donationService.saveDonation(donation);
+	@PostMapping("/donations")
+	public Response saveDonation(@RequestBody List<Donation> donations) {
+		for ( Donation donation : donations)
+			donationService.saveDonation(donation);
 		
 		res.setStatus(201);
 		res.setMessage("Donation saved successfully");
@@ -39,6 +40,18 @@ public class DonationController {
 	@GetMapping("/user/{userId}/donations")
 	public List<Donation> allDonationsByUserId(@PathVariable int userId){
 		return donationService.findDonationsByUserId(userId);
+	}
+	
+	@GetMapping("/user/{userId}/donations/total")
+	public Double totalDonationByUserId(@PathVariable int userId){
+		List<Donation> donations = donationService.findDonationsByUserId(userId);
+
+		Double total = 0.0;
+		for (Donation donation : donations) {
+			total += donation.getAmount().doubleValue();
+		}
+		
+		return total;
 	}
 	
 	@GetMapping("/category/{categoryId}/donations")

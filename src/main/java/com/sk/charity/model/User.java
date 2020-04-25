@@ -24,9 +24,8 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	
-	@Column(name = "email", nullable = false, unique = true)
+	@Column(name = "email", unique = true)
 	@Email(message = "Please provide a valid e-mail")
-	@NotEmpty(message = "Please provide an e-mail")
 	private String email;
 	
 	/*

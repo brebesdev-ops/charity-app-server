@@ -25,10 +25,25 @@ public class ImageController {
 	@Autowired
 	private Response res;
 	
-	@PostMapping("/campaign/{campaignId}/image")
-	public Response uploadImage(@PathVariable int campaignId, @RequestParam List<MultipartFile> files) throws IOException {
+	@PostMapping("/campaign/{campaignId}/logo")
+	public Response uploadLogo(@PathVariable int campaignId, 
+			@RequestParam MultipartFile file) throws IOException {
+
+			storageService.store(file, campaignId, true);
+		
+		res.setStatus(200);
+		res.setMessage("File uploaded successfully");
+		return res;
+	}
+	
+	@PostMapping("/campaign/{campaignId}/image/{logo}")
+	public Response uploadImages(@PathVariable int campaignId, 
+			@PathVariable(required = false) Boolean logo,
+			@RequestParam List<MultipartFile> files) throws IOException {
 		for (MultipartFile file: files) {
-			storageService.store(file, campaignId);
+			System.out.println("Uploading");
+
+			storageService.store(file, campaignId, logo);
 		}
 		
 		res.setStatus(200);

@@ -1,6 +1,6 @@
 package com.sk.charity.controller;
 
-import javax.security.auth.message.AuthException;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -9,6 +9,8 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,23 +30,28 @@ public class UserController {
 	Response response;
 	
 	@PostMapping("/signup")
-	public Response signup(@RequestBody User user) {
+	public String signup(@RequestBody User user) throws Exception {
 		
-		User emailExists = userService.findUserByEmail(user.getEmail());
+		User emailExists = null;
+		if ( user.getEmail() != null && user.getEmail() != "" )
+			emailExists = userService.findUserByEmail(user.getEmail());
 		User userExists = userService.findUserByUsername(user.getUsername());
 		
 		if(userExists != null || emailExists != null) {
-			
-			response.setStatus(401);
-			response.setError("This user already exists.");
+			throw new Exception("This user already exists.");
+			//response.setStatus(401);
+			//response.setError("This user already exists.");
+			//response.setMessage(null);
 		}else {
-			userService.saveUser(user);
+			User authUser = userService.saveUser(user);
 			
-			response.setStatus(201);
-			response.setMessage("Successfully signed up.");
+			//response.setStatus(201);
+			//response.setMessage("Successfully signed up.");
+			//response.setError(null);
+			return "{\"token\":{\"userId\":" + authUser.getId() + "}}";
 		}
 		
-		return response;
+		//return response;
 
 	}
 	
@@ -53,30 +60,52 @@ public class UserController {
 	@Autowired
 	private AuthenticationManager authenticationManager;
 	
+	//TODO: Send token with userId in response
 	@PostMapping("/signin")
-	public Response signin(@RequestBody User user) throws Exception {
+	public String signin(@RequestBody User user) throws Exception {
 		authenticate(user.getUsername(), user.getPassword());
 		
-		response.setStatus(200);
-		response.setMessage("Login successful");
-		return response;
+		//Mock
+		User authUser = userService.findUserByUsername(user.getUsername());
+			
+		//response.setStatus(200);
+		//response.setMessage("Login successful");
+		//response.setError(null);
+		return "{\"token\":{\"userId\":" + authUser.getId() + "}}";
 	}
 	
 	//TODO: different endpoint to update each field
-	@PostMapping("/user/update")
+	@PostMapping("/user/update/stripeCustomerId")
 	public Response updateUser(@RequestBody User user) {
 		userService.updateUser(user);
 		
 		response.setStatus(200);
 		response.setMessage("User updated successfully");
+		response.setError(null);
+
 		return response;
 	}
 	
-	//TODO: fix this
+	@GetMapping("/user/{userId}")
+	public User getUser(@PathVariable int userId) throws Exception {
+		Optional<User> user = userService.findUserById(userId);
+	
+		if ( user.get() == null )
+			throw new Exception("User not found.");
+		
+		//hide sensitive info
+		User userResponse = user.get();
+		userResponse.setConfirmationToken(null);
+		userResponse.setPassword(null);
+				
+		return userResponse;
+	}
+	
 	@ExceptionHandler({DisabledException.class, BadCredentialsException.class, Exception.class})
 	public Response handleAuthenticationException(Exception e) {
-		response.setError("Error");
-		//response.setError(e.getMessage());
+		//response.setError("Error");
+		response.setError(e.getMessage());
+		response.setMessage(null);
 		response.setStatus(403);
 		
 		return response;

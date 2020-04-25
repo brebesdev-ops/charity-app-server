@@ -25,20 +25,16 @@ public class CampaignController {
 	CampaignService campaignService;
 	
 	@PostMapping("/campaign")
-	public Response createCampaign(@RequestBody Campaign campaign) {
+	public Campaign createCampaign(@RequestBody Campaign campaign) {
 		Campaign campaignExists = campaignService.findCampaignByName(campaign.getCampaignName());
 		
 		//Avoid saving duplicates
 		if ( campaignExists == null ) {
-			campaignService.saveCampaign(campaign);
-		
-			responseHandler.setStatus(201);
-			responseHandler.setMessage("Campaign saved successfully");
+			return campaignService.saveCampaign(campaign);		
 		}else {
 			throw new NonUniqueResultException("Campaign with name " + campaign.getCampaignName() + " already exists.");
 		}
 		
-		return responseHandler;
 	}
 	
 	@GetMapping("/campaigns")

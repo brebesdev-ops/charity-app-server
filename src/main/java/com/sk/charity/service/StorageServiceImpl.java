@@ -20,7 +20,7 @@ public class StorageServiceImpl implements StorageService {
 	private final String campaign_dir = "/src/main/resources/static/images/campaign/";
 	
 	@Override
-	public void store(MultipartFile file, int campaignId) throws IOException {
+	public void store(MultipartFile file, int campaignId, Boolean isLogo) throws IOException {
 		
 		if (file.isEmpty()) {
 			throw new RuntimeException("Please provide a file to upload.");
@@ -35,7 +35,15 @@ public class StorageServiceImpl implements StorageService {
 		
 		try {
 			byte[] bytes = file.getBytes();
-			Path imgPath = Paths.get(path + "/" + file.getOriginalFilename());
+			
+			Path imgPath;
+			
+			if ( isLogo ) {
+				imgPath = Paths.get(path + "/logo" );
+			}else {
+				imgPath = Paths.get(path + "/" + file.getOriginalFilename());
+			}
+			
 			Files.write(imgPath, bytes);
 		} catch( IOException e) {
 			throw new IOException("Failed to upload file " + file.getOriginalFilename());

@@ -6,7 +6,7 @@ import com.sk.charity.model.Campaign;
 
 public interface CampaignService {
 
-	public void saveCampaign(Campaign campaign);
+	public Campaign saveCampaign(Campaign campaign);
 	
 	public List<Campaign> findCampaignByCategoryId(int categoryId);
 

@@ -3,6 +3,7 @@ package com.sk.charity.service;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,20 +38,21 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public void saveUser(User user) {		
+	public User saveUser(User user) {		
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		user.setEnabled(false);
 		user.setConfirmationToken(UUID.randomUUID().toString());
 		Role userRole = roleRepository.findByRole("ADMIN");
 		user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
 		
-		userRepository.save(user);
+		return userRepository.save(user);
 	}
 	
-	public void getUser(int userId) {
-		userRepository.getOne(userId);
+	public Optional<User> findUserById(int userId) {
+		return userRepository.findById(userId);
 	}
-
+	
+	//currently updates stripeCustomerId only.
 	@Override
 	public void updateUser(User user) {
 		//update only the fields where user.field isn't empty

@@ -34,6 +34,7 @@ public class CategoryController {
 		if ( categoryExists == null ) {
 			categoryService.saveCategory(category);
 		
+			responseHandler.setError(null);
 			responseHandler.setStatus(201);
 			responseHandler.setMessage("Category saved successfully");
 		}else {

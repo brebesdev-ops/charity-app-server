@@ -73,11 +73,13 @@
 
 	function saveCategory(){
 		var category = {
-			name: "animals",
-			description: "Save animals.",
+			name: document.getElementById("category").value,
+			description: "",
 		}
 		
-		fetch("http://localhost:8080" + "/category", {
+		console.log(document.getElementById("category").value)
+		
+		fetch("http://localhost:8081" + "/category", {
 			method: "POST",
 			headers: {"Content-Type": "application/json"},
 			body: JSON.stringify(category)
@@ -90,7 +92,7 @@
 	
 	function getCategoryByName(){
 		
-		fetch("http://localhost:8080" + "/category" + "/hunger", {
+		fetch("http://localhost:8081" + "/category" + "/hunger", {
 			method: "GET",
 			headers: {"Content-Type": "application/json"},
 		}).then((response) => {
@@ -102,7 +104,7 @@
 	
 	function getAllCategories(){
 		
-		fetch("http://localhost:8080" + "/categories", {
+		fetch("http://localhost:8081" + "/categories", {
 			method: "GET",
 			headers: {"Content-Type": "application/json"},
 		}).then((response) => {
@@ -114,15 +116,15 @@
 	
 	function saveCampaign(){
 		var campaign = {
-			campaignName: "AnimalShelter",
-			description: "Shelter for stray animals.",
+			campaignName: "Poodle & Pooch Rescue",
+			description: "We specialize in the rescue, rehabilitation, socialization and re-homing of abandoned, neglected, abused, orphaned, and/or surrendered poodles.",
 			country: "Tanzania",
-			categoryId: "21",
-			image: "", //image name of uploaded image
+			categoryId: "56",
+			logo: "", //image name of uploaded image
 			
 		}
 		
-		fetch("http://localhost:8080" + "/campaign", {
+		fetch("http://localhost:8081" + "/campaign", {
 			method: "POST",
 			headers: {"Content-Type": "application/json"},
 			body: JSON.stringify(campaign)
@@ -135,7 +137,7 @@
 	
 	function getAllCampaigns(){
 		
-		fetch("http://localhost:8080" + "/campaigns", {
+		fetch("http://localhost:8081" + "/campaigns", {
 			method: "GET",
 			headers: {"Content-Type": "application/json"},
 		}).then((response) => {
@@ -147,7 +149,7 @@
 	
 	function getAllCampaignsByCategory(){
 		
-		fetch("http://localhost:8080" + "/category/21/campaigns", {
+		fetch("http://localhost:8081" + "/category/56/campaigns", {
 			method: "GET",
 			headers: {"Content-Type": "application/json"},
 		}).then((response) => {
@@ -159,7 +161,7 @@
 	
 	function getCampaign(){
 		
-		fetch("http://localhost:8080" + "/campaign" + "/18", {
+		fetch("http://localhost:8081" + "/campaign" + "/18", {
 			method: "GET",
 			headers: {"Content-Type": "application/json"},
 		}).then((response) => {
@@ -181,7 +183,7 @@
 						
 		}
 		
-		fetch("http://localhost:8080" + "/donation", {
+		fetch("http://localhost:8081" + "/donations", {
 			method: "POST",
 			headers: {"Content-Type": "application/json"},
 			body: JSON.stringify(donation)
@@ -194,7 +196,7 @@
 	
 	function getAllDonations(){
 		
-		fetch("http://localhost:8080" + "/donations", {
+		fetch("http://localhost:8081" + "/donations", {
 			method: "GET",
 			headers: {"Content-Type": "application/json"},
 		}).then((response) => {
@@ -206,7 +208,7 @@
 	
 	function getAllDonationsByUserId(){
 		
-		fetch("http://localhost:8080" + "/user" + "/23" + "/donations", {
+		fetch("http://localhost:8081" + "/user" + "/23" + "/donations", {
 			method: "GET",
 			headers: {"Content-Type": "application/json"},
 		}).then((response) => {
@@ -218,7 +220,7 @@
 	
 	function getAllDonationsByCategoryId(){
 		
-		fetch("http://localhost:8080" + "/category" + "/21" + "/donations", {
+		fetch("http://localhost:8081" + "/category" + "/21" + "/donations", {
 			method: "GET",
 			headers: {"Content-Type": "application/json"},
 		}).then((response) => {
@@ -230,7 +232,7 @@
 	
 	function getAllDonationsByCampaignId(){
 		
-		fetch("http://localhost:8080" + "/campaign" + "/18" + "/donations", {
+		fetch("http://localhost:8081" + "/campaign" + "/18" + "/donations", {
 			method: "GET",
 			headers: {"Content-Type": "application/json"},
 		}).then((response) => {
@@ -244,7 +246,7 @@
 		
 		console.log(document.getElementById("image").files[0])
 		file = document.getElementById("image").files[0]
-		fetch("http://localhost:8080" + "/campaign/18" + "/image", {
+		fetch("http://localhost:8081" + "/campaign/67" + "/image" + true, {
 			method: "POST",
 			headers: {"Content-Type": "application/json"},
 			//body: file
@@ -257,7 +259,7 @@
 	
 	function getAllCampaignImages(){
 		
-		fetch("http://localhost:8080" + "/campaign" + "/18" + "/images", {
+		fetch("http://localhost:8081" + "/campaign" + "/18" + "/images", {
 			method: "GET",
 			headers: {"Content-Type": "application/json"},
 		}).then((response) => {
@@ -278,6 +280,7 @@
 	<button onclick="login()">Log In</button>
 	<button onclick="updateUser()">Update User</button>
 	<br/><br/>
+	<input type="text" id="category" name="category" />
 	<button onclick="saveCategory()">Save Category</button>
 	<button onclick="getCategoryByName()">Get Category by name</button>
 	<button onclick="getAllCategories()">Get All Categories</button>
@@ -293,13 +296,13 @@
 	<button onclick="getAllDonationsByCategoryId()">Get All Donations by Category</button>
 	<button onclick="getAllDonationsByCampaignId()">Get All Donations by Campaign</button>
 	<br/><br/>
-	<form method="POST" action="http://localhost:8080/campaign/18/image" enctype="multipart/form-data">
-		<input type="file" id="image" name="files" multiple/>
+	<form method="POST" action="http://localhost:8081/campaign/65/image/true" enctype="multipart/form-data">
+		<input type="file" id="image" name="files"/>
 	    <input type="submit" value="Upload" />
 	</form>
 	<button onclick="uploadCampaignImage()">Upload Campaign Image</button>
 	<button onclick="getAllCampaignImages()">Get All Images by Campaign</button>
-	<img src="http://localhost:8080/campaign/18/image/images.jpg"/>
+	<img src="http://localhost:8081/campaign/65/image/logo"/>
 	<div id="campaignImages">All Campaign Images</div>
 </body>
 
